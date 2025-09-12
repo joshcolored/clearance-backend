@@ -10,7 +10,8 @@ class AuthController extends Controller
 {
     // login accepts either username or ntlogin as "identifier"
    public function login(Request $request)
-{
+{   
+    
     $request->validate([
         'identifier' => 'required|string',
         'password' => 'required|string'
