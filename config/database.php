@@ -63,6 +63,18 @@ return [
             ]) : [],
         ],
 
+            'payslip' => [
+                'driver' => 'mysql',
+                'host' => env('PAYSLIP_DB_HOST', '50.87.174.20'),
+                'database' => env('PAYSLIP_DB_DATABASE', 'panasiat_payslip'),
+                'username' => env('PAYSLIP_DB_USERNAME', 'panasiat_root'),
+                'password' => env('PAYSLIP_DB_PASSWORD', 'X6JZ32v4V@j$'),
+                'charset' => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+                'prefix' => '',
+            ],
+
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

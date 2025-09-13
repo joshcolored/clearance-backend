@@ -11,7 +11,7 @@ class UsersAccount extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'name', 'username', 'ntlogin', 'email', 'password', 'role'
+        'name', 'username', 'ntlogin', 'email', 'password'
     ];
 
     protected $hidden = [

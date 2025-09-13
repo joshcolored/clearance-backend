@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\UsersAccount::class,
+            'model' =>App\Models\PayslipUser::class,
         ],
 
         // 'users' => [

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
+    "content-hash": "3bb4c3fc4ae0ebd94ef4e64248ed5f54",
     "packages": [
         {
             "name": "brick/math",
@@ -2392,6 +2392,62 @@
                 }
             ],
             "time": "2024-11-21T10:36:35+00:00"
+        },
+        {
+            "name": "orh/laravel-upload",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ouronghuang/laravel-upload.git",
+                "reference": "ca24b3a91c48c1ce64b01ec0c55dccb5645dd606"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ouronghuang/laravel-upload/zipball/ca24b3a91c48c1ce64b01ec0c55dccb5645dd606",
+                "reference": "ca24b3a91c48c1ce64b01ec0c55dccb5645dd606",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "suggest": {
+                "predis/predis": "Needed to support instant completion"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AetherUpload\\AetherUploadServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AetherUpload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "orh",
+                    "email": "512574561@qq.com"
+                }
+            ],
+            "description": "Upload large files for laravel, Laravel 大文件上传包",
+            "keywords": [
+                "laravel",
+                "large file",
+                "upload",
+                "上传",
+                "大文件"
+            ],
+            "support": {
+                "source": "https://github.com/ouronghuang/laravel-upload/tree/v2.0.1"
+            },
+            "time": "2018-04-17T06:57:55+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8231,12 +8287,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
