@@ -71,7 +71,7 @@ public function login(Request $request)
             'id' => $user->userid,
             'name' => $user->name,
             'empno' => $user->empno,
-            'role' => $user->access
+            'role' => (string)$user->access
         ]
     ]);
 }
