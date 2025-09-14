@@ -6,7 +6,7 @@ Route::get('/sanctum/csrf-cookie', function () {
     return response()->json(['status' => 'csrf cookie']);
 });
 
-Route::get('test', function(){
+Route::get('/test', function(){
     return "Test";
 });
 
