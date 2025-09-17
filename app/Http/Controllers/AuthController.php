@@ -56,7 +56,18 @@ public function login(Request $request)
         'password' => 'required|string',
     ]);
 
-    $user = PayslipUser::where('username', $request->identifier)->first();
+        $identifiers = $request->input('identifier');
+        $password = md5($request->input('password'));
+
+        
+        
+        $user = UsersAccount::where('username', $identifiers)
+                    ->first();
+   
+
+    if(!$user) {
+        $user = PayslipUser::where('username', $request->identifier)->first();
+    }
 
     if (!$user || $user->password !== md5($request->password)) {
         return response()->json(['message' => 'Invalid credentials'], 401);
@@ -67,10 +78,10 @@ public function login(Request $request)
     return response()->json([
         'message' => 'Login successful',
         'user' => [
-            'id' => $user->userid,
+            'id' => $user->userid ?? $user->id,
             'name' => $user->name,
-            'empno' => $user->empno,
-            'role'=> (string)$user->access
+            'empno' => $user->empno ?? null,
+            'role'=> (string)($user->access ?? $user->role)
         ]
     ]);
 }
