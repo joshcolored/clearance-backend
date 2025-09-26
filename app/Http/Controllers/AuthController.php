@@ -120,7 +120,7 @@ class AuthController extends Controller
                 'role'=> (string)($user->access ?? $user->role)
         ],
         'token_type' => 'bearer',
-        'expires_in' => auth('api')->factory()->getTTL() * 60
+        'expires_in' => config('jwt.ttl') * 60
         ]);
     }
 
