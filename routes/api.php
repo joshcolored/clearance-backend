@@ -13,6 +13,9 @@ Route::get('/test', function(){
 });
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/loginJWT', [AuthController::class, 'loginJWT']);
+
+
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 

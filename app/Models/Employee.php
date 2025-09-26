@@ -10,7 +10,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'employeeId', 'ntlogin', 'department', 'resignationDate', 'status', 'createdBy'
+        'name', 'employeeId', 'ntlogin', 'department', 'resignationDate', 'status','temporary_password', 'createdBy'
     ];
 
     public function clearanceItems()
