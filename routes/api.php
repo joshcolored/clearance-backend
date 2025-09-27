@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ClearanceItemController;
+use App\Http\Controllers\Api\PayslipUserController;
 
 Route::get('/sanctum/csrf-cookie', function () {
     return response()->json(['status' => 'csrf cookie']);
@@ -26,5 +27,6 @@ Route::post('/employees', [EmployeeController::class, 'store']);
 Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
 Route::put('/employees/{id}/status', [EmployeeController::class, 'updateStatus']);
 Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
+Route::post('/employees/getUsers', [PayslipUserController::class, 'getUser']);
 
 Route::post('/clearance-items/{clearanceItem}/complete', [ClearanceItemController::class, 'complete']);
