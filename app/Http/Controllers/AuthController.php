@@ -13,7 +13,7 @@ class AuthController extends Controller
 //    public function login()
 //     {
 //     return response()->json(['message' => 'Login endpoint']);
-//     // //    return response()->json([    
+//     // //    return response()->json([
 //     // //         'user' => $request->all()
 //     // //     ]);
 //     //     $request->validate([
@@ -24,7 +24,7 @@ class AuthController extends Controller
 //     //     $identifier = $request->input('identifier');
 //     //     $password = md5($request->input('password'));
 
-         
+
 //     //     // try find by username or ntlogin
 //     //     $user = UsersAccount::where('username', $identifier)
 //     //                 ->orWhere('ntlogin', $identifier)
@@ -33,7 +33,7 @@ class AuthController extends Controller
 //     //     if (!$user || $password !== $user->password) {
 //     //         return response()->json(['message' => 'Invalid credentials'], 401);
 //     //     }
-        
+
 
 //     //     // log in (session-based) and regenerate session
 //     //     Auth::login($user);
@@ -45,51 +45,89 @@ class AuthController extends Controller
 //     //     ]);
 //     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'identifier' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+            $identifiers = $request->input('identifier');
+            $password = md5($request->input('password'));
 
 
 
+            $user = UsersAccount::where('username', $identifiers)
+                        ->first();
 
-public function login(Request $request)
-{
-    $request->validate([
-        'identifier' => 'required|string',
-        'password' => 'required|string',
-    ]);
 
-        $identifiers = $request->input('identifier');
-        $password = md5($request->input('password'));
+        if(!$user) {
+            $user = PayslipUser::where('username', $request->identifier)->first();
+        }
 
-        
-        
-        $user = UsersAccount::where('username', $identifiers)
-                    ->first();
-   
+        if (!$user || $user->password !== md5($request->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
 
-    if(!$user) {
-        $user = PayslipUser::where('username', $request->identifier)->first();
+        Auth::login($user);
+
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => [
+                'id' => $user->userid ?? $user->id,
+                'name' => $user->name,
+                'empno' => $user->empno ?? null,
+                'role'=> (string)($user->access ?? $user->role)
+            ]
+        ]);
     }
 
-    if (!$user || $user->password !== md5($request->password)) {
-        return response()->json(['message' => 'Invalid credentials'], 401);
+    // jwt
+    public function loginJWT(Request $request){
+
+        $credentials = $request->only(['identifier', 'password']);
+
+
+        $cred = [
+            'username' => $credentials['identifier'],
+            'password' =>  $credentials['password'],
+        ];
+
+
+        if (! $token = auth('api')->attempt($cred)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+           // fetch the user from UsersAccount
+        $user = UsersAccount::where('username', $credentials['identifier'])->first();
+
+        if (!$user || $user->password !== md5($request->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+
+        return $this->respondWithToken($token, $user);
     }
 
-    Auth::login($user); 
-
-    return response()->json([
-        'message' => 'Login successful',
+    protected function respondWithToken($token, $user)
+    {
+        return response()->json([
+        'access_token' => $token,
         'user' => [
-            'id' => $user->userid ?? $user->id,
-            'name' => $user->name,
-            'empno' => $user->empno ?? null,
-            'role'=> (string)($user->access ?? $user->role)
-        ]
-    ]);
-}
+                'id' => $user->userid ?? $user->id,
+                'name' => $user->name,
+                'empno' => $user->empno ?? null,
+                'role'=> (string)($user->access ?? $user->role)
+        ],
+        'token_type' => 'bearer',
+        'expires_in' => config('jwt.ttl') * 60
+        ]);
+    }
 
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout(); 
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
