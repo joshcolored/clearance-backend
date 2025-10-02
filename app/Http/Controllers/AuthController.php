@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UsersAccount;
 use App\Models\PayslipUser;
+use App\Models\Employee;
 
 class AuthController extends Controller
 {
@@ -51,25 +52,33 @@ class AuthController extends Controller
             'identifier' => 'required|string',
             'password' => 'required|string',
         ]);
-
+        $type = 0; 
             $identifiers = $request->input('identifier');
             $password = md5($request->input('password'));
+            $temporary_password = $request->input('password');
 
 
 
             $user = UsersAccount::where('username', $identifiers)
-                        ->first();
+                                ->where('active', 1)
+                                ->first();
 
 
         if(!$user) {
-            $user = PayslipUser::where('username', $request->identifier)->first();
+            $user = Employee::where('ntlogin', $request->identifier)->first();
+            $type = 1;
         }
 
-        if (!$user || $user->password !== md5($request->password)) {
+        if (!$user || $user->password !== $request->password) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         Auth::login($user);
+            if ($type === 1) {
+                $role = '9';
+            } else {
+                $role = (string)($user->access ?? ($user->role ?? ""));
+            }
 
         return response()->json([
             'message' => 'Login successful',
@@ -77,7 +86,7 @@ class AuthController extends Controller
                 'id' => $user->userid ?? $user->id,
                 'name' => $user->name,
                 'empno' => $user->empno ?? null,
-                'role'=> (string)($user->access ?? $user->role)
+                'role'=> $role
             ]
         ]);
     }

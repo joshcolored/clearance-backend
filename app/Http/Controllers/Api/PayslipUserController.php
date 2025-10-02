@@ -13,7 +13,7 @@ class PayslipUserController extends Controller
     {
 
 
-           $result = PayslipUser::where('username', 'like', '%' . $request->ntlogin . '%')
+           $result = PayslipUser::where('empno', 'like', '%' . $request->employeeId . '%')
             ->join('Departments as d', function($join) {
                 $join->on('users.access', '=', 'd.access')
                     ->whereRaw('d.idDepartments = (
