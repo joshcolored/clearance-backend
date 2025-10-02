@@ -11,7 +11,7 @@ class Employee extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name', 'employeeId', 'ntlogin', 'department', 'resignationDate', 'status','temporary_password', 'createdBy'
+        'name', 'employeeId', 'ntlogin', 'department', 'resignationDate', 'status','password', 'createdBy'
     ];
 
     public function clearanceItems()

@@ -52,33 +52,41 @@ class AuthController extends Controller
             'identifier' => 'required|string',
             'password' => 'required|string',
         ]);
-        $type = 0; 
+        $type = 1; 
             $identifiers = $request->input('identifier');
             $password = md5($request->input('password'));
             $temporary_password = $request->input('password');
 
 
-
-            $user = UsersAccount::where('username', $identifiers)
-                                ->where('active', 1)
-                                ->first();
+  
+        $user = UsersAccount::where('username', $identifiers)
+                              ->where('active', 1)
+                              ->first();
 
 
         if(!$user) {
             $user = Employee::where('ntlogin', $request->identifier)->first();
-            $type = 1;
+            $type = 0;
         }
-
-        if (!$user || $user->password !== $request->password) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        Auth::login($user);
-            if ($type === 1) {
+        
+            if ($type === 0) {
                 $role = '9';
+                if (!$user || $user->password !== $request->password) {
+                return response()->json(['message' => 'Invalid credentials'], 401);
+            }
             } else {
+                
+                if (!$user || $user->password !== md5($request->password)) {
+                    return response()->json(['message' => 'Invalid credentials'], 401);
+                }
                 $role = (string)($user->access ?? ($user->role ?? ""));
             }
+
+
+       
+
+        // Auth::login($user);
+
 
         return response()->json([
             'message' => 'Login successful',
