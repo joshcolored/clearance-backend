@@ -16,7 +16,11 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $employee = Employee::create($request->all());
+        $data = $request->all();
+        $data['temporary_password'] = $data['password']; 
+
+        $employee = Employee::create($data);
+        
 
         // Generate clearance tasks
         $tasks = [
