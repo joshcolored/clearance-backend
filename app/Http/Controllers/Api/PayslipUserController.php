@@ -11,7 +11,7 @@ class PayslipUserController extends Controller
 {
     public function getUser(Request $request)
     {
-
+        dd(array_key_first($request->all()));
 
            $result = PayslipUser::where('empno', 'like', '%' . $request->employeeId . '%')
             ->join('Departments as d', function($join) {
@@ -31,5 +31,13 @@ class PayslipUserController extends Controller
             
 
         return response()->json(['message' => $result]);
+    }
+
+    public function getSuperriors(Request $request)
+    {
+        $result = PayslipUser::where('name', 'like', '%' . $request->name . '%')
+                                ->where('active', 1)->get();
+
+        return response()->json(['data' => $result]);
     }
 }

@@ -27,6 +27,11 @@ Route::post('/employees', [EmployeeController::class, 'store']);
 Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
 Route::put('/employees/{id}/status', [EmployeeController::class, 'updateStatus']);
 Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
+Route::post('/employees/teamlead', [EmployeeController::class, 'teamlead']);
+Route::post('/employees/manager', [EmployeeController::class, 'manager']);
+
 Route::post('/employees/getUsers', [PayslipUserController::class, 'getUser']);
+Route::post('/employees/getSuperriors', [PayslipUserController::class, 'getSuperriors']);
+
 
 Route::post('/clearance-items/{clearanceItem}/complete', [ClearanceItemController::class, 'complete']);

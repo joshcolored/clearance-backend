@@ -70,4 +70,17 @@ class EmployeeController extends Controller
 
         return response()->json($employee);
     }
+
+    public function teamlead(Request $request)
+    {
+        $teamLeads = Employee::where('teamLead', $request->ntlogin)
+                                ->where('status','in_clearance')->get();
+        return response()->json($teamLeads);
+    }
+    public function manager(Request $request)
+    {
+        $teamLeads = Employee::where('manager', $request->ntlogin)
+                                ->where('status','in_clearance')->get();
+        return response()->json($teamLeads);
+    }
 }
